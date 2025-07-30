@@ -83,3 +83,29 @@ def predict_from_excel():
 
     except Exception as e:
         messagebox.showerror("Error", str(e))
+
+        # 6. GUI
+root = tk.Tk()
+root.title("Sail Delay Predictor")
+root.geometry("500x300")
+root.resizable(False, False)
+
+frame = tk.Frame(root, padx=20, pady=20)
+frame.pack(fill="both", expand=True)
+
+tk.Label(frame, text="⛵ Sail Delay Prediction Tool", font=("Arial", 16, "bold")).pack(pady=10)
+
+tk.Label(frame, text="Upload an Excel (.xlsx) file with sail data.\nRequired columns:\n"
+                     "Market Segment, Department, Sail Luff, Sail Hours, Graphics, Lead time",
+         justify="center", font=("Arial", 10)).pack(pady=5)
+
+tk.Button(frame, text="📂 Upload Excel File & Predict", command=predict_from_excel,
+          font=("Arial", 11), bg="#4CAF50", fg="white", padx=10, pady=5).pack(pady=10)
+
+file_label = tk.Label(frame, text="", font=("Arial", 9), fg="gray")
+file_label.pack(pady=5)
+
+tk.Label(frame, text="Prediction results will be saved as a new Excel file.",
+         font=("Arial", 9), fg="blue").pack(pady=5)
+
+root.mainloop()

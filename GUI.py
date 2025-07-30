@@ -30,3 +30,10 @@ X_encoded = preprocessor.fit_transform(X)
 # 3. Balance data with SMOTE
 smote = SMOTE(random_state=42)
 X_resampled, y_resampled = smote.fit_resample(X_encoded, y)
+
+# 4. Train model
+X_train, X_test, y_train, y_test = train_test_split(
+    X_resampled, y_resampled, stratify=y_resampled, test_size=0.2, random_state=42
+)
+rf = RandomForestClassifier(random_state=42)
+rf.fit(X_train, y_train)

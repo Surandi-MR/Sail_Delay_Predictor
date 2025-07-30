@@ -26,3 +26,7 @@ preprocessor = ColumnTransformer([
 ], remainder='passthrough')
 
 X_encoded = preprocessor.fit_transform(X)
+
+# 3. Balance data with SMOTE
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X_encoded, y)

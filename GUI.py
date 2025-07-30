@@ -60,3 +60,26 @@ def predict_from_excel():
         if input_data.empty:
             messagebox.showerror("Error", "All rows have missing values. No predictions made.")
             return
+        
+         # Predict
+        input_encoded = preprocessor.transform(input_data)
+        predictions = rf.predict(input_encoded)
+        statuses = ["Delayed" if pred == 1 else "On Time" for pred in predictions]
+
+        # Add predictions to rows that passed dropna
+        input_df = input_df.loc[input_data.index]
+        input_df["Predicted Status"] = statuses
+
+        # Save
+        save_path = filedialog.asksaveasfilename(defaultextension=".xlsx",
+                                                 filetypes=[("Excel files", "*.xlsx")],
+                                                 title="Save Predicted Output As")
+        if save_path:
+            input_df.to_excel(save_path, index=False)
+            msg = f"Predictions saved to:\n{save_path}"
+            if removed_rows > 0:
+                msg += f"\n\nNote: {removed_rows} row(s) with missing values were skipped."
+            messagebox.showinfo("Success", msg)
+
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
